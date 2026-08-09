@@ -45,6 +45,34 @@
     }
     @keyframes stars { to { background-position: 55px 80px, 115px 130px; } }
 
+    /* MUSIC BUTTON */
+    .music-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 200;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.85);
+      border: 2px solid #ff4f91;
+      color: #ff4f91;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+    }
+    .music-btn.playing {
+      animation: spin 4s linear infinite;
+      background: #ff4f91;
+      color: #fff;
+    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+
     .scene {
       width: min(94vw, 520px);
       position: relative;
@@ -352,6 +380,9 @@
 </head>
 <body>
 
+  <!-- BUTTON TOGGLE MUSIC -->
+  <button class="music-btn" id="musicBtn" aria-label="เปิด/ปิดเพลง">🎵</button>
+
   <!-- AUDIO PLAYER -->
   <audio id="bgm" loop preload="auto">
     <source src="song.mp3" type="audio/mpeg">
@@ -466,7 +497,7 @@
                   ขอให้มีความสุขมาก ๆ ในทุกวัน 🥳<br>
                   ขอให้สมหวังกับทุกสิ่งที่ตั้งใจ<br>
                   เจอแต่คนดี ๆ และมีรอยยิ้มเยอะ ๆ<br>
-                  และขอให้เป็นพิมพ์ที่น่ารักแบบนี้ไปนาน ๆ นะ 🤍
+                  และขอให้เป็นพิมพ์ที่น่ารักแบบนี้ไปนาน ๆนะ 🤍
                 </p>
 
                 <div class="signature">— จากรุ่นพี่ที่หวังดีกับน้องเสมอ —</div>
@@ -501,31 +532,35 @@
     const dotsContainer = document.getElementById('dotsContainer');
     
     const bgm = document.getElementById('bgm');
+    const musicBtn = document.getElementById('musicBtn');
+    
     let currentPage = 1;
     const totalPages = 6;
-    let musicStarted = false;
+    let isPlaying = false;
 
-    // ฟังก์ชั่นสั่งเปิดเพลง
-    function playMusic() {
-  if (musicStarted) return;
+    // ฟังก์ชั่นเปิด/ปิดเพลง
+    function toggleMusic() {
+      if (isPlaying) {
+        bgm.pause();
+        musicBtn.classList.remove('playing');
+        musicBtn.innerText = '🎵';
+        isPlaying = false;
+      } else {
+        if (bgm.currentTime === 0) {
+          bgm.currentTime = 68; // เริ่มที่นาที 1:08
+        }
+        bgm.play().then(() => {
+          musicBtn.classList.add('playing');
+          musicBtn.innerText = '🎶';
+          isPlaying = true;
+        }).catch(err => {
+          console.log("Playback error:", err);
+        });
+      }
+    }
 
-  function seekAndPlay() {
-    try { bgm.currentTime = 68; } catch (e) { console.log('seek error:', e); }
-    bgm.play().then(() => {
-      musicStarted = true;
-    }).catch(err => console.log("Music play error:", err));
-  }
-
-  if (bgm.readyState >= 1) {
-    seekAndPlay();
-  } else {
-    bgm.addEventListener('loadedmetadata', seekAndPlay, { once: true });
-  }
-}
-
-    // ปลดล็อกการเล่นเสียงเมื่อผู้ใช้สัมผัสหน้าจอ
-    document.addEventListener('click', playMusic, { once: true });
-    document.addEventListener('touchstart', playMusic, { once: true });
+    // กดปุ่มเพลงเพื่อเปิด/ปิด
+    musicBtn.addEventListener('click', toggleMusic);
 
     // เอฟเฟกต์พลุ
     function burst(count = 55) {
@@ -547,7 +582,9 @@
 
     // คลิกเปิดกล่องของขวัญ
     giftBox.addEventListener('click', () => {
-      playMusic(); // เล่นเพลงทันทีที่แตะเปิดกล่อง
+      if (!isPlaying) {
+        toggleMusic(); // เล่นเพลงทันทีที่เปิดกล่อง
+      }
       giftScreen.classList.add('opening');
       burst(75);
 
@@ -592,7 +629,6 @@
     }
 
     nextBtn.addEventListener('click', () => {
-      playMusic();
       if (currentPage < totalPages) {
         updatePage(currentPage + 1);
         burst(25);
