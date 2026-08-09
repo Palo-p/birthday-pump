@@ -52,34 +52,6 @@
       perspective: 1800px;
     }
 
-    /* MUSIC CONTROL BUTTON */
-    .music-btn {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 200;
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.85);
-      border: 2px solid #ff4f91;
-      color: #ff4f91;
-      font-size: 1.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      backdrop-filter: blur(5px);
-      transition: all 0.3s ease;
-    }
-    .music-btn.playing {
-      animation: spin 4s linear infinite;
-      background: #ff4f91;
-      color: #fff;
-    }
-    @keyframes spin { 100% { transform: rotate(360deg); } }
-
     /* ---------- PAGE 1 : GIFT BOX ---------- */
     .gift-screen {
       min-height: min(760px, 88svh);
@@ -380,13 +352,10 @@
 </head>
 <body>
 
- <!-- AUDIO PLAYER -->
-<audio id="bgm" autoplay loop preload="auto">
-  <source src="song.mp3" type="audio/mpeg">
-</audio>
-
-  <!-- MUSIC TOGGLE BUTTON -->
-  <button class="music-btn" id="musicBtn" title="เปิด/ปิดเพลง">🎵</button>
+  <!-- AUDIO PLAYER -->
+  <audio id="bgm" autoplay loop preload="auto">
+    <source src="song.mp3" type="audio/mpeg">
+  </audio>
 
   <div id="fx"></div>
 
@@ -432,7 +401,7 @@
           <div class="page-view cover-view active" id="page1">
             <div class="book-icon">📖</div>
             <h1>สมุดของพิมพ์</h1>
-            <p>เรื่องราวเล็ก ๆ จากรุ่นอ้าข</p>
+            <p>เรื่องราวเล็ก ๆ จากรุ่นพี่</p>
             <div class="date">13 • 08 • 2569</div>
           </div>
 
@@ -448,13 +417,13 @@
             </article>
           </div>
 
-          <!-- PAGE 3 : รูปน้องพมพ์ -->
+          <!-- PAGE 3 : รูปน้องพิมพ์ -->
           <article class="page-view" id="page3">
             <div class="card">
-              <div class="label">📸 <span>รูปพมพ์</span></div>
+              <div class="label">📸 <span>รูปพิมพ์</span></div>
               <div class="photo">
-                <img src="pump1.jpg" alt="รูปพมพ์"
-                     onerror="this.style.display='none'; this.parentElement.innerHTML='🌸<div>ใส่รูปพมพ์ตรงนี้<small>เปลี่ยน src=&quot;pump1.jpg&quot;</small></div>';">
+                <img src="pump1.jpg" alt="รูปพิมพ์"
+                     onerror="this.style.display='none'; this.parentElement.innerHTML='🌸<div>ใส่รูปพิมพ์ตรงนี้<small>เปลี่ยน src=&quot;pump1.jpg&quot;</small></div>';">
               </div>
               <p class="caption">💗 รุ่นน้องที่รู้จักกันมา 5 ปีแล้ว</p>
             </div>
@@ -477,8 +446,8 @@
             <div class="card">
               <div class="label">💌 <span>ข้อความจากรุ่นพี่</span></div>
               <div class="story-text">
-                <p>พี่อาจจะไม่ได้มีของขวัญหรูหราอะไรให้ แต่มตั้งใจทำเว็บสมุดเล่มนี้ขึ้นมาให้พมพ์โดยเฉพาะเลยนะ</p>
-                <p style="margin-top: 12px;">ดีใจเสมอที่มีพมพ์เป็นรุ่นน้องที่น่ารักแบบนี้ หวังว่าสมุดเล่มนี้จะช่วยสร้างรอยยิ้มเล็ก ๆ ในวันเกิดปีนี้นะครับ 😊</p>
+                <p>พี่อาจจะไม่ได้มีของขวัญหรูหราอะไรให้ แต่ตั้งใจทำเว็บสมุดเล่มนี้ขึ้นมาให้พิมพ์โดยเฉพาะเลยนะ</p>
+                <p style="margin-top: 12px;">ดีใจเสมอที่มีพิมพ์เป็นรุ่นน้องที่น่ารักแบบนี้ หวังว่าสมุดเล่มนี้จะช่วยสร้างรอยยิ้มเล็ก ๆ ในวันเกิดปีนี้นะครับ 😊</p>
               </div>
             </article>
           </article>
@@ -489,7 +458,7 @@
               <div class="label">🎂 <span>คำอวยพรวันเกิด</span></div>
               <div class="wish">
                 <h2>Happy Birthday</h2>
-                <div class="name">พมพ์ 💗</div>
+                <div class="name">พิมพ์ 💗</div>
 
                 <p>
                   ครบ <strong>17 ปี</strong> แล้วนะ<br>
@@ -497,7 +466,7 @@
                   ขอให้มีความสุขมาก ๆ ในทุกวัน 🥳<br>
                   ขอให้สมหวังกับทุกสิ่งที่ตั้งใจ<br>
                   เจอแต่คนดี ๆ และมีรอยยิ้มเยอะ ๆ<br>
-                  และขอให้เป็นพมพ์ที่น่ารักแบบนี้ไปนาน ๆ นะ 🤍
+                  และขอให้เป็นพิมพ์ที่น่ารักแบบนี้ไปนาน ๆ นะ 🤍
                 </p>
 
                 <div class="signature">— จากรุ่นพี่ที่หวังดีกับน้องเสมอ —</div>
@@ -532,32 +501,21 @@
     const dotsContainer = document.getElementById('dotsContainer');
     
     const bgm = document.getElementById('bgm');
-    const musicBtn = document.getElementById('musicBtn');
-    let isPlaying = false;
     let currentPage = 1;
     const totalPages = 6;
 
     // ตั้งเวลาเริ่มเพลงที่นาที 1:08 (68 วินาที)
     bgm.currentTime = 68;
 
-    function toggleMusic() {
-      if (isPlaying) {
-        bgm.pause();
-        musicBtn.classList.remove('playing');
-        musicBtn.innerText = '🎵';
-        isPlaying = false;
-      } else {
-        bgm.play().then(() => {
-          musicBtn.classList.add('playing');
-          musicBtn.innerText = '🎶';
-          isPlaying = true;
-        }).catch(err => {
-          console.log("Autoplay blocked:", err);
-        });
-      }
+    // ฟังก์ชั่นสั่งเล่นเพลง
+    function playMusic() {
+      bgm.play().catch(() => {});
     }
 
-    musicBtn.addEventListener('click', toggleMusic);
+    // พยายามเล่นเพลงทันที และสำรองไว้กรณีถูกเบราว์เซอร์บล็อก
+    window.addEventListener('DOMContentLoaded', playMusic);
+    document.addEventListener('click', playMusic, { once: true });
+    document.addEventListener('touchstart', playMusic, { once: true });
 
     // เอฟเฟกต์พลุ
     function burst(count = 55) {
@@ -577,15 +535,11 @@
       }
     }
 
-    // คลิกเปิดกล่องของขวัญ (และเล่นเพลงอัตโนมัติ)
+    // คลิกเปิดกล่องของขวัญ
     giftBox.addEventListener('click', () => {
       giftScreen.classList.add('opening');
       burst(75);
-
-      // เริ่มเล่นเพลงทันทีที่กดเปิดกล่อง
-      if (!isPlaying) {
-        toggleMusic();
-      }
+      playMusic(); // มั่นใจว่าเพลงเริ่มเล่นตอนเปิดกล่อง
 
       setTimeout(() => {
         giftScreen.classList.add('hide');
