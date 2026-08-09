@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>For พิมพ์ — 13.08.69</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Itim&family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink: #ff4f91;
+      --pink2: #ff86b5;
+      --deep: #8d174f;
+      --soft: #fff0f6;
+      --white: #fff;
+      --gold: #ffd978;
+      --shadow: 0 25px 70px rgba(132, 18, 72, .25);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; min-height: 100%; overflow-x: hidden; }
+    body {
+      font-family: 'Kanit', sans-serif;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255, 255, 255, .9), transparent 24%),
+        radial-gradient(circle at 85% 75%, rgba(255, 120, 180, .32), transparent 28%),
+        linear-gradient(135deg, #ffd9e9 0%, #ff9fc5 48%, #f65f9c 100%);
+      color: var(--deep);
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+    }
+    body::before {
+      content: "";
+      position: fixed; inset: 0; pointer-events: none;
+      background-image:
+        radial-gradient(circle, rgba(255, 255, 255, .8) 1px, transparent 2px),
+        radial-gradient(circle, rgba(255, 255, 255, .35) 1px, transparent 2px);
+      background-size: 55px 55px, 95px 95px;
+      background-position: 0 0, 20px 35px;
+      animation: stars 12s linear infinite;
+    }
+    @keyframes stars { to { background-position: 55px 80px, 115px 130px; } }
+
+    .scene {
+      width: min(94vw, 520px);
+      position: relative;
+      z-index: 2;
+      perspective: 1800px;
+    }
+
+    /* MUSIC CONTROL BUTTON */
+    .music-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 200;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.85);
+      border: 2px solid #ff4f91;
+      color: #ff4f91;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+    }
+    .music-btn.playing {
+      animation: spin 4s linear infinite;
+      background: #ff4f91;
+      color: #fff;
+    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+
+    /* ---------- PAGE 1 : GIFT BOX ---------- */
+    .gift-screen {
+      min-height: min(760px, 88svh);
+      border-radius: 38px;
+      padding: 36px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(145deg, rgba(255, 255, 255, .3), rgba(255, 72, 143, .5));
+      border: 1px solid rgba(255, 255, 255, .65);
+      box-shadow: var(--shadow), inset 0 1px rgba(255, 255, 255, .8);
+      backdrop-filter: blur(15px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .gift-screen.hide {
+      opacity: 0;
+      transform: scale(0.9);
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+    }
+    .gift-screen::before {
+      content: ""; position: absolute; inset: 14px;
+      border: 1px solid rgba(255, 255, 255, .4);
+      border-radius: 28px; pointer-events: none;
+    }
+    .gift-content { position: relative; z-index: 3; width: 100%; }
+    .eyebrow {
+      display: inline-flex; gap: 8px; align-items: center;
+      padding: 8px 18px; border-radius: 999px;
+      background: rgba(255, 255, 255, .3);
+      border: 1px solid rgba(255, 255, 255, .5);
+      color: #fff; font-size: .85rem; letter-spacing: 1px; font-weight: 500;
+      box-shadow: 0 8px 25px rgba(120, 0, 50, .12);
+    }
+    .gift-box {
+      width: 210px; height: 175px; margin: 40px auto 30px;
+      position: relative; cursor: pointer;
+      filter: drop-shadow(0 25px 25px rgba(110, 0, 50, .25));
+      animation: giftFloat 3s ease-in-out infinite;
+    }
+    @keyframes giftFloat { 50% { transform: translateY(-12px) rotate(1deg); } }
+    .box-body {
+      position: absolute; left: 10px; right: 10px; bottom: 0; height: 115px;
+      border-radius: 12px 12px 22px 22px;
+      background: linear-gradient(135deg, #ff77aa, #e82f76);
+      box-shadow: inset 0 -12px rgba(120, 0, 55, .16);
+    }
+    .box-body::after {
+      content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 30px;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, #ffd4e5, #fff, #ffc1d9);
+      box-shadow: 0 0 12px rgba(255, 255, 255, .45);
+    }
+    .box-lid {
+      position: absolute; left: 0; right: 0; top: 25px; height: 55px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ff91ba, #ed3d80);
+      box-shadow: 0 10px 0 rgba(123, 0, 56, .12);
+      transform-origin: center bottom;
+      transition: .8s cubic-bezier(.2, 1.4, .4, 1);
+      z-index: 5;
+    }
+    .box-lid::after {
+      content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 30px;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, #ffd4e5, #fff, #ffc1d9);
+    }
+    .box-bow { position: absolute; left: 50%; top: -38px; transform: translateX(-50%); z-index: 7; }
+    .box-bow i {
+      display: block; position: absolute; width: 72px; height: 48px;
+      background: #ff5b98; border: 3px solid #ffb4d0;
+      border-radius: 65% 20% 65% 25%;
+      box-shadow: 0 8px 15px rgba(130, 0, 60, .15);
+    }
+    .box-bow i:first-child { right: 3px; transform: rotate(25deg); transform-origin: right bottom; }
+    .box-bow i:nth-child(2) { left: 3px; transform: scaleX(-1) rotate(25deg); transform-origin: left bottom; }
+    .box-bow b {
+      display: block; width: 25px; height: 25px; border-radius: 50%;
+      background: #ff3c82; border: 3px solid #ffc0da;
+      position: relative; z-index: 3;
+    }
+    .gift-screen.opening .box-lid { transform: translateY(-75px) rotate(-5deg); }
+    .gift-screen.opening .gift-box { animation: none; }
+
+    .gift-title {
+      color: #fff; font-family: 'Itim', cursive;
+      font-size: clamp(3rem, 11vw, 4.7rem);
+      line-height: 1; text-shadow: 0 5px 0 #a61b58, 0 15px 35px rgba(80, 0, 40, .2);
+    }
+    .gift-sub { color: #fff; margin-top: 10px; font-weight: 300; opacity: .95; font-size: 1.05rem; }
+    .open-hint {
+      margin-top: 20px; color: #fff; font-weight: 500;
+      animation: pulse 1.7s infinite;
+    }
+    @keyframes pulse { 50% { opacity: .5; transform: scale(.98); } }
+
+    /* ---------- BOOK WRAPPER ---------- */
+    .book-wrap {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    .book-wrap.show {
+      display: block;
+      opacity: 1;
+      animation: appear .8s cubic-bezier(.2, 1.2, .3, 1);
+    }
+    @keyframes appear {
+      from { opacity: 0; transform: scale(.8) translateY(30px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    .book {
+      width: 100%;
+      min-height: min(760px, 88svh);
+      position: relative;
+      background: linear-gradient(145deg, #ffffff, #ffe8f2);
+      border: 4px solid #ffb0cd;
+      border-radius: 32px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* PAGE PROGRESS BAR */
+    .page-bar {
+      padding: 12px 20px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #b12662;
+      font-weight: 500;
+    }
+    .progress-dots {
+      display: flex; gap: 6px;
+    }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #ffd0e3; transition: 0.3s;
+    }
+    .dot.active {
+      width: 20px; border-radius: 10px; background: #ff4f91;
+    }
+
+    /* BOOK PAGES MANAGEMENT */
+    .page-container {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-view {
+      position: absolute;
+      inset: 0;
+      padding: 20px 24px;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow-y: auto;
+      opacity: 0;
+      transform: translateX(30px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .page-view.active {
+      display: flex;
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* PAGE 1: COVER */
+    .cover-view {
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, .2), transparent 35%),
+        linear-gradient(145deg, #ff75aa, #d92872);
+      color: #fff;
+      text-align: center;
+      border-radius: 26px;
+      margin: 10px;
+    }
+    .cover-view::before {
+      content: ""; position: absolute; inset: 16px;
+      border: 2px dashed rgba(255, 255, 255, .55); border-radius: 20px; pointer-events: none;
+    }
+    .book-icon { font-size: 5rem; filter: drop-shadow(0 10px 15px rgba(90, 0, 40, .2)); animation: bookFloat 3s infinite; }
+    @keyframes bookFloat { 50% { transform: translateY(-10px) rotate(3deg); } }
+    .cover-view h1 { font-family: 'Itim', cursive; font-size: clamp(3rem, 11vw, 4.5rem); text-shadow: 0 5px #95134e; }
+    .cover-view p { margin-top: 8px; opacity: .95; font-size: 1.1rem; }
+    .cover-view .date {
+      margin-top: 25px; font-size: .9rem; letter-spacing: 3px;
+      background: rgba(255,255,255,0.2); padding: 6px 18px; border-radius: 99px;
+      border: 1px solid rgba(255,255,255,0.4); display: inline-block;
+    }
+
+    /* CARDS & CONTENT */
+    .card {
+      width: 100%;
+      background: rgba(255, 255, 255, .9);
+      border: 1px solid rgba(255, 137, 180, .4);
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(150, 30, 80, .08);
+      margin: auto 0;
+    }
+    .label {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: .9rem; font-weight: 600; color: #9b2459;
+      margin-bottom: 12px;
+    }
+    .label span {
+      background: #ff5e99; color: white; border-radius: 999px; padding: 4px 14px; font-size: .75rem;
+    }
+
+    .story-text {
+      font-size: 1rem; line-height: 1.85; color: #672344; text-align: center;
+    }
+
+    .photo {
+      width: 100%; aspect-ratio: 4/3;
+      border-radius: 18px; object-fit: cover;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; border: 4px solid white;
+      background:
+        linear-gradient(135deg, rgba(255, 160, 200, .65), rgba(255, 232, 242, .9)),
+        repeating-linear-gradient(45deg, transparent 0 10px, rgba(255, 255, 255, .22) 10px 20px);
+      color: #a3215b; font-size: 1.1rem;
+      box-shadow: 0 8px 22px rgba(200, 50, 110, .12);
+      overflow: hidden;
+    }
+    .photo img { width: 100%; height: 100%; object-fit: cover; }
+    .photo small { display: block; font-size: .75rem; opacity: .75; margin-top: 5px; }
+
+    .caption { text-align: center; color: #9b2459; font-size: .9rem; margin-top: 10px; font-weight: 500; }
+
+    .wish { text-align: center; padding: 10px 5px; }
+    .wish h2 { font-family: 'Itim', cursive; color: #e52d77; font-size: 2.4rem; }
+    .wish .name {
+      display: inline-block; background: #ff4f91; color: white;
+      padding: 4px 18px; border-radius: 999px; margin: 6px 0 12px; font-weight: 500;
+    }
+    .wish p { line-height: 1.95; font-size: .95rem; color: #672344; }
+    .signature { margin-top: 15px; font-family: 'Itim', cursive; font-size: 1.3rem; color: #b12662; }
+    .badge {
+      display: inline-block; margin-top: 14px; padding: 6px 16px; border-radius: 999px;
+      background: #ffe0ed; color: #a31f5b; font-size: .8rem; font-weight: 500;
+    }
+
+    /* NAVIGATION CONTROLS */
+    .controls {
+      padding: 15px 20px;
+      background: rgba(255, 255, 255, .7);
+      border-top: 1px solid rgba(255, 176, 205, .5);
+      display: flex; gap: 12px; z-index: 30;
+      backdrop-filter: blur(8px);
+    }
+    .btn {
+      flex: 1; border: 0; border-radius: 999px; padding: 12px 18px;
+      color: #fff; background: linear-gradient(135deg, #ff4f91, #d92b72);
+      font: 500 .95rem 'Kanit', sans-serif;
+      box-shadow: 0 7px 18px rgba(170, 20, 80, .2);
+      cursor: pointer; transition: .2s; text-align: center;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(170, 20, 80, .25); }
+    .btn:active { transform: translateY(2px); box-shadow: 0 3px 10px rgba(170, 20, 80, .2); }
+    .btn.secondary { background: rgba(255, 255, 255, .95); color: #a3215b; border: 1px solid #ffb8d4; }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    .hint {
+      position: fixed; left: 50%; bottom: 8px; transform: translateX(-50%);
+      font-size: .7rem; color: rgba(255, 255, 255, .85); z-index: 4; font-weight: 300;
+    }
+
+    /* PARTICLES */
+    #fx { position: fixed; inset: 0; pointer-events: none; z-index: 100; overflow: hidden; }
+    .particle {
+      position: absolute; width: 9px; height: 9px; border-radius: 50%;
+      animation: fall 2.5s linear forwards;
+    }
+    @keyframes fall {
+      from { transform: translate3d(0, -30px, 0) rotate(0); opacity: 1; }
+      to { transform: translate3d(var(--x), 110vh, 0) rotate(720deg); opacity: 0; }
+    }
+
+    @media (max-width: 520px) {
+      body { padding: 10px; }
+      .gift-screen, .book { min-height: calc(100svh - 20px); }
+      .gift-box { transform: scale(.86); margin: 35px auto 25px; }
+      .gift-title { font-size: 3.25rem; }
+      .photo { aspect-ratio: 1/1; }
+      .page-view { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- AUDIO PLAYER -->
+  <audio id="bgm" loop preload="auto">
+    <source src="song.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- MUSIC TOGGLE BUTTON -->
+  <button class="music-btn" id="musicBtn" title="เปิด/ปิดเพลง">🎵</button>
+
+  <div id="fx"></div>
+
+  <main class="scene">
+
+    <!-- PAGE 1 : กล่องของขวัญ -->
+    <section class="gift-screen" id="giftScreen">
+      <div class="gift-content">
+        <div class="eyebrow">🎀 A LITTLE SURPRISE FOR YOU</div>
+
+        <div class="gift-box" id="giftBox" aria-label="เปิดกล่องของขวัญ">
+          <div class="box-bow"><i></i><i></i><b></b></div>
+          <div class="box-lid"></div>
+          <div class="box-body"></div>
+        </div>
+
+        <h1 class="gift-title">กล่องของขวัญ</h1>
+        <p class="gift-sub">สำหรับ “พิมพ์” </p>
+        <div class="open-hint">👆 แตะที่กล่องเพื่อเปิดเซอร์ไพรส์</div>
+      </div>
+    </section>
+
+    <!-- BOOK SYSTEM (6 PAGES) -->
+    <section class="book-wrap" id="bookWrap">
+      <div class="book">
+        
+        <!-- PAGE PROGRESS BAR -->
+        <div class="page-bar">
+          <span id="pageIndicator">หน้า 1 / 6</span>
+          <div class="progress-dots" id="dotsContainer">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+        </div>
+
+        <div class="page-container">
+
+          <!-- PAGE 1 : ปกสมุด -->
+          <div class="page-view cover-view active" id="page1">
+            <div class="book-icon">📖</div>
+            <h1>สมุดของพิมพ์</h1>
+            <p>เรื่องราวเล็ก ๆ จากรุ่นอ้าข</p>
+            <div class="date">13 • 08 • 2569</div>
+          </div>
+
+          <!-- PAGE 2 : เรื่องราว 5 ปี -->
+          <div class="page-view" id="page2">
+            <article class="card">
+              <div class="label">🌷 <span>เรื่องราวของเรา</span></div>
+              <div class="story-text">
+                <p>ยินดีด้วยนะพิมพ์! 🎉</p>
+                <p style="margin-top: 12px;">เผลอแป๊บเดียวเรารู้จักกันมาตั้ง <strong>5 ปี</strong> แล้วนะ ตั้งแต่ยังเป็นรุ่นน้องตัวเล็ก ๆ จนตอนนี้โตขึ้นอีกปีแล้ว เวลาผ่านไปไวมากจริง ๆ</p>
+                <p style="margin-top: 10px;">ขอบคุณสำหรับมิตรภาพดี ๆ ความสดใส และความทรงจำน่ารัก ๆ ตลอดช่วงเวลาที่ผ่านมานะ</p>
+              </div>
+            </article>
+          </div>
+
+          <!-- PAGE 3 : รูปน้องพมพ์ -->
+          <article class="page-view" id="page3">
+            <div class="card">
+              <div class="label">📸 <span>รูปพมพ์</span></div>
+              <div class="photo">
+                <img src="pump1.jpg" alt="รูปพมพ์"
+                     onerror="this.style.display='none'; this.parentElement.innerHTML='🌸<div>ใส่รูปพมพ์ตรงนี้<small>เปลี่ยน src=&quot;pump1.jpg&quot;</small></div>';">
+              </div>
+              <p class="caption">💗 รุ่นน้องที่รู้จักกันมา 5 ปีแล้ว</p>
+            </div>
+          </article>
+
+          <!-- PAGE 4 : รูปความทรงจำ -->
+          <article class="page-view" id="page4">
+            <div class="card">
+              <div class="label">💕 <span>ความทรงจำ</span></div>
+              <div class="photo">
+                <img src="pump2.jpg" alt="รูปความทรงจำ"
+                     onerror="this.style.display='none'; this.parentElement.innerHTML='✨<div>ใส่รูปอีกใบตรงนี้<small>เปลี่ยน src=&quot;pump2.jpg&quot;</small></div>';">
+              </div>
+              <p class="caption">🌷 ขอบคุณสำหรับความทรงจำดี ๆ ตลอด 5 ปี</p>
+            </div>
+          </article>
+
+          <!-- PAGE 5 : ความรู้สึกจากรุ่นพี่ -->
+          <article class="page-view" id="page5">
+            <div class="card">
+              <div class="label">💌 <span>ข้อความจากรุ่นพี่</span></div>
+              <div class="story-text">
+                <p>พี่อาจจะไม่ได้มีของขวัญหรูหราอะไรให้ แต่มตั้งใจทำเว็บสมุดเล่มนี้ขึ้นมาให้พมพ์โดยเฉพาะเลยนะ</p>
+                <p style="margin-top: 12px;">ดีใจเสมอที่มีพมพ์เป็นรุ่นน้องที่น่ารักแบบนี้ หวังว่าสมุดเล่มนี้จะช่วยสร้างรอยยิ้มเล็ก ๆ ในวันเกิดปีนี้นะครับ 😊</p>
+              </div>
+            </article>
+          </article>
+
+          <!-- PAGE 6 : คำอวยพรวันเกิด 17 ปี -->
+          <article class="page-view" id="page6">
+            <div class="card">
+              <div class="label">🎂 <span>คำอวยพรวันเกิด</span></div>
+              <div class="wish">
+                <h2>Happy Birthday</h2>
+                <div class="name">พมพ์ 💗</div>
+
+                <p>
+                  ครบ <strong>17 ปี</strong> แล้วนะ<br>
+                  ขอให้ปีนี้เป็นปีที่มีแต่เรื่องดี ๆ เข้ามา<br>
+                  ขอให้มีความสุขมาก ๆ ในทุกวัน 🥳<br>
+                  ขอให้สมหวังกับทุกสิ่งที่ตั้งใจ<br>
+                  เจอแต่คนดี ๆ และมีรอยยิ้มเยอะ ๆ<br>
+                  และขอให้เป็นพมพ์ที่น่ารักแบบนี้ไปนาน ๆ นะ 🤍
+                </p>
+
+                <div class="signature">— จากรุ่นพี่ที่หวังดีกับน้องเสมอ —</div>
+                <div class="badge">🎈 13 สิงหาคม 2569 • อายุ 17 ปี 🎈</div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- CONTROLS BUTTONS -->
+        <div class="controls">
+          <button class="btn secondary" id="prevBtn" disabled>⬅ ย้อนกลับ</button>
+          <button class="btn" id="nextBtn">📖 เปิดสมุด</button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <div class="hint">made with ♡ for พมพ์</div>
+
+  <script>
+    const giftScreen = document.getElementById('giftScreen');
+    const giftBox = document.getElementById('giftBox');
+    const bookWrap = document.getElementById('bookWrap');
+    
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageIndicator = document.getElementById('pageIndicator');
+    const dotsContainer = document.getElementById('dotsContainer');
+    
+    const bgm = document.getElementById('bgm');
+    const musicBtn = document.getElementById('musicBtn');
+    let isPlaying = false;
+    let currentPage = 1;
+    const totalPages = 6;
+
+    // ตั้งเวลาเริ่มเพลงที่นาที 1:08 (68 วินาที)
+    bgm.currentTime = 68;
+
+    function toggleMusic() {
+      if (isPlaying) {
+        bgm.pause();
+        musicBtn.classList.remove('playing');
+        musicBtn.innerText = '🎵';
+        isPlaying = false;
+      } else {
+        bgm.play().then(() => {
+          musicBtn.classList.add('playing');
+          musicBtn.innerText = '🎶';
+          isPlaying = true;
+        }).catch(err => {
+          console.log("Autoplay blocked:", err);
+        });
+      }
+    }
+
+    musicBtn.addEventListener('click', toggleMusic);
+
+    // เอฟเฟกต์พลุ
+    function burst(count = 55) {
+      const colors = ['#ff4f91', '#ff86b5', '#ffd978', '#ffffff', '#ffbdd8'];
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('span');
+        p.className = 'particle';
+        p.style.left = (Math.random() * 100) + 'vw';
+        p.style.top = (-Math.random() * 20) + 'vh';
+        p.style.background = colors[Math.floor(Math.random() * colors.length)];
+        p.style.setProperty('--x', ((Math.random() - .5) * 260) + 'px');
+        p.style.animationDuration = (1.7 + Math.random() * 1.7) + 's';
+        p.style.animationDelay = (Math.random() * .45) + 's';
+        p.style.width = p.style.height = (5 + Math.random() * 9) + 'px';
+        document.getElementById('fx').appendChild(p);
+        setTimeout(() => p.remove(), 4000);
+      }
+    }
+
+    // คลิกเปิดกล่องของขวัญ (และเล่นเพลงอัตโนมัติ)
+    giftBox.addEventListener('click', () => {
+      giftScreen.classList.add('opening');
+      burst(75);
+
+      // เริ่มเล่นเพลงทันทีที่กดเปิดกล่อง
+      if (!isPlaying) {
+        toggleMusic();
+      }
+
+      setTimeout(() => {
+        giftScreen.classList.add('hide');
+        bookWrap.classList.add('show');
+        burst(45);
+      }, 900);
+    });
+
+    // อัปเดตการแสดงผลหน้าสมุด
+    function updatePage(newPage) {
+      document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
+      
+      const activePage = document.getElementById(`page${newPage}`);
+      if (activePage) {
+        activePage.classList.add('active');
+      }
+
+      currentPage = newPage;
+
+      // Update Page Bar
+      pageIndicator.innerText = `หน้า ${currentPage} / ${totalPages}`;
+      
+      const dots = dotsContainer.querySelectorAll('.dot');
+      dots.forEach((dot, idx) => {
+        if (idx === currentPage - 1) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+
+      // อัปเดตสถานะปุ่มกด
+      prevBtn.disabled = (currentPage === 1);
+      
+      if (currentPage === 1) {
+        nextBtn.innerText = "📖 เปิดสมุด";
+      } else if (currentPage === totalPages) {
+        nextBtn.innerText = "🌸 จบสมุด";
+      } else {
+        nextBtn.innerText = "ถัดไป ➔";
+      }
+    }
+
+    // ปุ่มถัดไป / เปิดสมุด
+    nextBtn.addEventListener('click', () => {
+      if (currentPage < totalPages) {
+        updatePage(currentPage + 1);
+        burst(25);
+      } else {
+        burst(65); // ยิงพลุฉลองตอนกดจบหน้าสุดท้าย
+      }
+    });
+
+    // ปุ่มย้อนกลับ
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 1) {
+        updatePage(currentPage - 1);
+      }
+    });
+  </script>
+</body>
+</html>
