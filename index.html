@@ -353,7 +353,7 @@
 <body>
 
   <!-- AUDIO PLAYER -->
-  <audio id="bgm" autoplay loop preload="auto">
+  <audio id="bgm" loop preload="auto">
     <source src="song.mp3" type="audio/mpeg">
   </audio>
 
@@ -503,17 +503,21 @@
     const bgm = document.getElementById('bgm');
     let currentPage = 1;
     const totalPages = 6;
+    let musicStarted = false;
 
-    // ตั้งเวลาเริ่มเพลงที่นาที 1:08 (68 วินาที)
-    bgm.currentTime = 68;
-
-    // ฟังก์ชั่นสั่งเล่นเพลง
+    // ฟังก์ชั่นสั่งเปิดเพลง
     function playMusic() {
-      bgm.play().catch(() => {});
+      if (!musicStarted) {
+        if (bgm.currentTime === 0) {
+          bgm.currentTime = 68; // เริ่มนาทีที่ 1:08
+        }
+        bgm.play().then(() => {
+          musicStarted = true;
+        }).catch(err => console.log("Music play error:", err));
+      }
     }
 
-    // พยายามเล่นเพลงทันที และสำรองไว้กรณีถูกเบราว์เซอร์บล็อก
-    window.addEventListener('DOMContentLoaded', playMusic);
+    // ปลดล็อกการเล่นเสียงเมื่อผู้ใช้สัมผัสหน้าจอ
     document.addEventListener('click', playMusic, { once: true });
     document.addEventListener('touchstart', playMusic, { once: true });
 
@@ -537,9 +541,9 @@
 
     // คลิกเปิดกล่องของขวัญ
     giftBox.addEventListener('click', () => {
+      playMusic(); // เล่นเพลงทันทีที่แตะเปิดกล่อง
       giftScreen.classList.add('opening');
       burst(75);
-      playMusic(); // มั่นใจว่าเพลงเริ่มเล่นตอนเปิดกล่อง
 
       setTimeout(() => {
         giftScreen.classList.add('hide');
@@ -559,7 +563,6 @@
 
       currentPage = newPage;
 
-      // Update Page Bar
       pageIndicator.innerText = `หน้า ${currentPage} / ${totalPages}`;
       
       const dots = dotsContainer.querySelectorAll('.dot');
@@ -571,7 +574,6 @@
         }
       });
 
-      // อัปเดตสถานะปุ่มกด
       prevBtn.disabled = (currentPage === 1);
       
       if (currentPage === 1) {
@@ -583,17 +585,16 @@
       }
     }
 
-    // ปุ่มถัดไป / เปิดสมุด
     nextBtn.addEventListener('click', () => {
+      playMusic();
       if (currentPage < totalPages) {
         updatePage(currentPage + 1);
         burst(25);
       } else {
-        burst(65); // ยิงพลุฉลองตอนกดจบหน้าสุดท้าย
+        burst(65);
       }
     });
 
-    // ปุ่มย้อนกลับ
     prevBtn.addEventListener('click', () => {
       if (currentPage > 1) {
         updatePage(currentPage - 1);
