@@ -507,15 +507,21 @@
 
     // ฟังก์ชั่นสั่งเปิดเพลง
     function playMusic() {
-      if (!musicStarted) {
-        if (bgm.currentTime === 0) {
-          bgm.currentTime = 68; // เริ่มนาทีที่ 1:08
-        }
-        bgm.play().then(() => {
-          musicStarted = true;
-        }).catch(err => console.log("Music play error:", err));
-      }
-    }
+  if (musicStarted) return;
+
+  function seekAndPlay() {
+    try { bgm.currentTime = 68; } catch (e) { console.log('seek error:', e); }
+    bgm.play().then(() => {
+      musicStarted = true;
+    }).catch(err => console.log("Music play error:", err));
+  }
+
+  if (bgm.readyState >= 1) {
+    seekAndPlay();
+  } else {
+    bgm.addEventListener('loadedmetadata', seekAndPlay, { once: true });
+  }
+}
 
     // ปลดล็อกการเล่นเสียงเมื่อผู้ใช้สัมผัสหน้าจอ
     document.addEventListener('click', playMusic, { once: true });
